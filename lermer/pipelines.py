@@ -11,13 +11,14 @@ from scrapy.pipelines.images import ImagesPipeline
 
 class LermerPipeline:
     def process_item(self, item, spider):
-        print()
         return item
 
 class LermerPhotosPipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
+        #pass
+        print(f"items: {item}")
         if item['photos']:
-            for img in item['photo']:
+            for img in item['photos']:
                 try:
                     yield scrapy.Request(img)
                 except Exception as e:

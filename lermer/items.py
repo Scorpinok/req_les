@@ -15,10 +15,13 @@ def process_price(value):
         pass
     return value
 
+def process_curr(value):
+    value = value.replace(' ', '')
+    return value
 
 class LermerItem(scrapy.Item):
     name = scrapy.Field(output_processor=TakeFirst())
     price = scrapy.Field(input_processor=MapCompose(process_price), output_processor=TakeFirst())
-    curr = scrapy.Field(output_processor=TakeFirst())
+    curr = scrapy.Field(input_processor=MapCompose(process_curr), output_processor=TakeFirst())
     photos = scrapy.Field()
     url = scrapy.Field(output_processor=TakeFirst())

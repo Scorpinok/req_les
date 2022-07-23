@@ -13,7 +13,6 @@ class CastoSpider(scrapy.Spider):
         self.start_urls = [f'https://www.castorama.ru/catalogsearch/result/?q={kwargs.get("search")}/']
 
     def parse(self, response: HtmlResponse):
-
         next_page = response.xpath("//a[@class='next i-next']/@href").get()
         if next_page:
             yield response.follow(next_page, callback=self.parse)
@@ -27,6 +26,6 @@ class CastoSpider(scrapy.Spider):
         loader.add_xpath('name', "//div[contains(@class,'product-essential__left-col')]/h1/text()")
         loader.add_xpath('price', "//span[@class='price']//text()")
         loader.add_xpath('curr', '//span[@class="price"]//span[@class="currency"]//text()')
-        loader.add_xpath('photos', "//div/descendant-or-self::img[@class='thumb-slide__img swiper-lazy swiper-lazy-loaded']/@src")
+        loader.add_xpath('photos', "//li[contains(@class,'top-slide')]//@data-src")
         loader.add_value('url', response.url)
         yield loader.load_item()
